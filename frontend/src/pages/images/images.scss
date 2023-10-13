@@ -1,0 +1,97 @@
+.container {
+    background: white;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10em;
+}
+
+.date-time-picker {
+    margin-bottom: 20px;
+}
+  
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.date-picker {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: 5em;
+}
+
+.cards {
+    max-width: 96%;
+    margin: auto;
+    padding: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
+    .card {
+        max-width: 15em;
+        margin-bottom: 1em;
+        -webkit-box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.75);
+        border-radius: 1em;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 1em;
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 2em;
+    color: #1e88e5;
+}
+
+button:disabled {
+cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.button {
+    width: 10em;
+    background: #1e88e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2em;
+    margin-left: 3em;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
