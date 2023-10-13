@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
@@ -28,8 +29,12 @@ class App {
     // Middleware para permitir solicitudes desde todos los dominios
     this.app.use(cors());
 
-    // Middleware para analizar el cuerpo de las solicitudes como JSON
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json());
     this.app.use(express.json());
+
+    const uploadsPath = __dirname + '/uploads';
+    this.app.use('/upload', express.static(uploadsPath));
 
     // Middleware para manejar errores
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -50,16 +55,16 @@ class App {
       .catch((err) => console.error('Error connecting to MongoDB', err));
   }
 
-  public startServer(port: number): void {
-    this.app.listen(port, () => {
+  public startServer(): void {
+    this.app.listen(this.PORT, () => {
       console.log(`Server is running on port ${port}`);
     });
   }
 }
 
 // Obtiene el puerto del entorno, o utiliza el puerto 3000 por defecto
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
 
 // Crea una instancia de la clase App y la inicia
 const server = new App(port);
-server.startServer(3000);
+server.startServer();

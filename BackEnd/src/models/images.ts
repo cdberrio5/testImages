@@ -7,4 +7,4 @@ const ImageSchema: Schema = new Schema({
   insertedBy: { type: String, required: true },
 });
 
-export default mongoose.model<Image>('Miner', ImageSchema);
+export default mongoose.model<Image>('Images', ImageSchema);

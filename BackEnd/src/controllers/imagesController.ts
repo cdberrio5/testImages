@@ -27,9 +27,9 @@ class PhotoController {
                         .png()
                         .toBuffer();
 
-                    const fileName = `${Date.now()}_${file.originalname.replace(/\.[^/.]+$/, '.png')}`;
+                    const fileName = `${Date.now()}.png`;                    
                     const filePath = path.join(__dirname, '..', 'uploads', fileName);
-
+                    
                     await fs.writeFileSync(filePath, convertedBuffer);
 
                     const username = req.body.name;
