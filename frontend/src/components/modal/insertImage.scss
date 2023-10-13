@@ -1,0 +1,97 @@
+.ReactModal__Overlay--after-open {
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal {
+        width: 40%;
+        background-color: white;
+        padding: 2em;
+        border: 1px solid #cecece;
+        border-radius: 10px;
+
+        .close {
+            font-size: 1.5em;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            cursor: pointer;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            margin: auto;
+            margin-top: 20px;
+
+            div {
+                margin-bottom: 10px;
+
+                input {
+                    height: 2em;
+                    width: 100%;
+                    border-radius: 5px;
+                    border: 1px solid #cecece;
+                }
+            }
+
+            button {
+                padding: 5px 10px;
+                cursor: pointer;
+                border-radius: 3px;
+                background-color: #fff;
+                font-size: 2em;
+                color: #1e88e5;
+                border: 1px solid #1e88e5;
+                margin-top: 10px;
+            }
+
+            .buttons {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .slick-list {
+                width: 70%;
+                margin: auto;
+                height: 300px;
+            }
+
+            .slick-next {
+                right: 0px;
+                font-size: 25px;
+                z-index: 1000;
+                color: black;
+            }
+
+            .slick-slide {
+                height: 300px;
+
+                div {
+                    div {
+                        height: 300px;
+                    }
+                }
+            }
+
+            .slick-prev {
+                left: 0px;
+                font-size: 25px;
+                z-index: 1000;
+                color: black;
+            }
+
+            .slick-next::before {
+                display: none;
+            }
+
+            .slick-prev::before {
+                display: none;
+            }
+        }
+    }
+}
