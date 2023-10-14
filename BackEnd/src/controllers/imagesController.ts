@@ -28,7 +28,8 @@ class PhotoController {
                         .toBuffer();
 
                     const fileName = `${Date.now()}.png`;                    
-                    const filePath = path.join(__dirname, '..', 'uploads', fileName);
+                    const filePath = path.join(__dirname, '..', 'public', fileName);
+                    const serverPath = process.env.URI + ":" + process.env.PORT + "/public/" + fileName;
                     
                     await fs.writeFileSync(filePath, convertedBuffer);
 
@@ -36,7 +37,7 @@ class PhotoController {
 
                     const image = new ImageSchema({
                         insertedBy: username,
-                        path: filePath
+                        path: serverPath
                     });
 
                     await image.save();
@@ -51,6 +52,37 @@ class PhotoController {
 
             return res.status(200).json({ message: 'Images uploaded successfully', uploadedImages });
         } catch (error: any) {
+            return res.send(500).json({ error })
+        }
+    }
+
+    public async getImages(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { page, startDate, endDate } = req.query;
+            const itemsPerPage = 10;
+            const pageNumber = parseInt(page as string, 10) || 1;
+
+            const query: any = {};
+
+            if (startDate && endDate) {
+                query.createdAt = { $gte: new Date(startDate as string), $lte: new Date(endDate as string) };
+            }
+
+            const totalItems = await ImageSchema.countDocuments(query);
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            const images = await ImageSchema.find(query)
+                .sort({ createdAt: 'desc' })
+                .skip((pageNumber - 1) * itemsPerPage)
+                .limit(itemsPerPage);
+
+            res.status(200).json({
+                totalPages,
+                currentPage: pageNumber,
+                data: images,
+            });
+
+        } catch (error) {
             return res.send(500).json({ error })
         }
     }

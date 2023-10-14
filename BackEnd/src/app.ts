@@ -32,9 +32,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(express.json());
-
-    const uploadsPath = __dirname + '/uploads';
-    this.app.use('/upload', express.static(uploadsPath));
+    this.app.use(express.static('public'));
 
     // Middleware para manejar errores
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -45,6 +43,8 @@ class App {
 
   private initializeRoutes(): void {
     this.app.use('/api', imageRoutes);
+
+    this.app.use("/public", express.static(__dirname + "/public"));
   }
 
   private connectToDatabase(): void {

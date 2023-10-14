@@ -14,10 +14,11 @@ class ImageRoutes {
     this.router = Router();
     this.imageController = new ImageController();
     this.storage = multer.memoryStorage();
-    this.upload = multer({ storage: this.storage, dest: '/uploads' });
+    this.upload = multer({ storage: this.storage, dest: '/public' });
     this.imageMiddleware = new ImageMiddlewares();
 
-    this.router.post('/images', this.upload.array('images'), this.imageMiddleware.validateFiles, this.imageController.uploadImages);
+    this.router.post('/images', this.upload.array('images'), this.imageMiddleware.validateFiles, this.imageController.uploadImages)
+    this.router.get("/images", this.imageController.getImages)
   }
 
   public getRouter(): Router {
