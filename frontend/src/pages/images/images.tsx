@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { loadImages } from '../../services/api';
 import ImageUploadModal from './../../components/modal/insertImage';
 import "./images.scss";
 
@@ -11,12 +12,39 @@ const Images = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPage] = useState(1);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [images, setImages] = useState<any[]>([]);
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
+            loadData();
         }
     };
+
+    const handleStartDate = (date: Date | null) => {
+        setStartDate(date);
+        loadData();
+    }
+
+    const handleEndDate = (date: Date | null) => {
+        setEndDate(date);
+        loadData();
+    }
+
+    const loadData = async () => {
+        console.log(currentPage);
+        console.log(startDate);
+        console.log(endDate);
+        const response = await loadImages(currentPage, startDate, endDate);
+
+        setTotalPage(response.totalPages);
+        setImages(response.data);
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [currentPage, startDate, endDate])
+    
 
     return (
         <div className="container">
@@ -34,7 +62,7 @@ const Images = () => {
                     <label htmlFor="">Date from</label>
                     <DatePicker
                         selected={startDate}
-                        onChange={date => setStartDate(date)}
+                        onChange={date => handleStartDate(date)}
                         showTimeSelect
                         timeFormat="HH:mm"
                         timeIntervals={15}
@@ -48,7 +76,7 @@ const Images = () => {
                     <label htmlFor="">Date to</label>
                     <DatePicker
                         selected={endDate}
-                        onChange={date => setEndDate(date)}
+                        onChange={date => handleEndDate(date)}
                         showTimeSelect
                         timeFormat="HH:mm"
                         timeIntervals={15}
@@ -62,45 +90,17 @@ const Images = () => {
             </div>
 
             <div className="cards">
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-                
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
-
-                <div className="card">
-                    <img src="https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80" alt="" />
-                </div>
+                {images.map((item, index) => {
+                    return (
+                        <div className="card" key={index}>
+                            <img src={item.path} alt="" />
+        
+                            <div className='owner'>
+                                Cristian Berrio
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
 
             <div className="pagination">

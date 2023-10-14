@@ -22,3 +22,19 @@ export const uploadImages = async (name: string, images: File[]): Promise<any> =
     throw error;
   }
 };
+
+export const loadImages = async (page: number, dateFrom: Date | null, dateEnd: Date | null): Promise<any> => {
+  try {
+    const response: AxiosResponse<any> = await axios.get(`${BASE_URL}/images`, {
+      params: {
+        page,
+        dateFrom,
+        dateEnd,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

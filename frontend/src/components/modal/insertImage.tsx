@@ -51,12 +51,12 @@ const ImageUploadModal = ({ isOpen, onRequestClose }: any) => {
     e.preventDefault();
 
     try {
-      // Envia la solicitud POST al servicio de API REST
-      const response = await uploadImages(name, images);
+      await uploadImages(name, images);
 
-      // Maneja la respuesta del servicio
-      console.log('Respuesta del servicio:', response.data);
-      
+      setImages([]);
+      setName("");
+      setImagePreviews([]);
+      onRequestClose();
 
     } catch (error) {
       // Maneja cualquier error que pueda ocurrir durante la solicitud
